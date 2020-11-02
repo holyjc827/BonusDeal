@@ -1,12 +1,18 @@
 from re import search
-from main import WebScraper
 
 class features:
 
-    def partial_search(self):
-        lookup = input("What do you want to find?: ")
+    def partial_search(self, item_list, return_list):
+        search_word = input("What do you want to find?: ")
 
-        for item in WebScraper.item_list:
-            if search(lookup, item):
-                WebScraper.return_list.append(item)
-        print(WebScraper.return_list)
+        for item in item_list:
+            if search(search_word, item):
+                return_list.append(item)
+
+        if len(return_list) > 0:
+            return print(return_list)
+        else:
+            print("This item is not on sale this week")
+
+    def return_complete_list(self, item_list):
+        return print(item_list)

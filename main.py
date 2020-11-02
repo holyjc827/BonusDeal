@@ -1,7 +1,9 @@
 from selenium import webdriver
 import math
 import time
-from re import search
+import features
+
+f = features.features()
 
 class WebScraper:
 
@@ -34,16 +36,14 @@ class WebScraper:
                 self.item_list.append(name)
             self.item_list = list(dict.fromkeys(self.item_list))  # remove duplicates in the list.
 
-            lookup = input("What do you want to find?: ")
-
-            for item in self.item_list:
-                if search(lookup, item):
-                    self.return_list.append(item)
-            print(self.return_list)
-
         except:
             self.driver.quit()
 
+    def search(self):
+        f.partial_search(self.item_list, self.return_list)
+
+    def complete_list(self):
+        f.return_complete_list(self.item_list)
 
 if __name__ == "__main__":
     app = WebScraper()
@@ -51,3 +51,7 @@ if __name__ == "__main__":
     app.cookie_button_click()
     app.auto_scroll_bottom()
     app.get_list()
+    if len(app.item_list) > 0:
+        app.search()
+    else:
+        print("There are no items on sale this week")
