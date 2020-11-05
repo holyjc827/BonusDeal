@@ -1,7 +1,5 @@
 from selenium import webdriver
-import math
-import time
-import features
+import math, time, features, argparse
 
 f = features.features()
 
@@ -45,13 +43,22 @@ class WebScraper:
     def complete_list(self):
         f.return_complete_list(self.item_list)
 
+
 if __name__ == "__main__":
     app = WebScraper()
     app.load()
     app.cookie_button_click()
     app.auto_scroll_bottom()
     app.get_list()
-    if len(app.item_list) > 0:
+
+    parser = argparse.ArgumentParser(description='Generate a list of grocery that is on sale')
+    parser.add_argument('--s', action='store_const', const="search")
+    parser.add_argument('--a', action="store_const", const="all")
+    args = parser.parse_args()
+
+    if args == "search":
         app.search()
+    elif args == "all":
+        app.complete_list()
     else:
         print("There are no items on sale this week")
