@@ -16,3 +16,7 @@ class features:
 
     def return_complete_list(self, item_list):
         return print(item_list)
+
+    def export_list(self, item_list):
+        with open('list.txt','w') as l:
+            l.writelines("%s\n" % item for item in item_list)

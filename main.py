@@ -21,7 +21,8 @@ class WebScraper:
     def auto_scroll_bottom(self):
         # Calculate the height of the element 'body'
         scrollHeight = self.driver.execute_script("return document.body.scrollHeight")
-        for i in range(1, math.ceil(scrollHeight / 1000)):
+        print(scrollHeight)
+        for i in range(0, math.ceil(scrollHeight / 1000)+1):
             # Slowly scroll down to the bottom of the page to load the dynamic contents.
             self.driver.execute_script("window.scrollTo(" + str((i - 1) * 1000) + "," + str(i * 1000) + ")")
             time.sleep(0.5)
@@ -43,11 +44,15 @@ class WebScraper:
     def complete_list(self):
         f.return_complete_list(self.item_list)
 
+    def export(self):
+        f.export_list(self.item_list)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate a list of grocery that is on sale')
     parser.add_argument('--s', action='store_const', const="search")
     parser.add_argument('--a', action="store_const", const="complete")
+    parser.add_argument('--e', action="store_const", const="export")
     args = parser.parse_args()
 
     app = WebScraper()
@@ -60,5 +65,5 @@ if __name__ == "__main__":
         app.search()
     elif args.a:
         app.complete_list()
-    else:
-        print("There are no items on sale this week")
+    elif args.e:
+        app.export()
