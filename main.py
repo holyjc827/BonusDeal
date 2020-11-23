@@ -34,19 +34,9 @@ class WebScraper:
                 name = item.get_attribute("title")
                 self.item_list.append(name)
             self.item_list = list(dict.fromkeys(self.item_list))  # remove duplicates in the list.
-
+            return self.item_list
         except:
             self.driver.quit()
-
-    def search(self):
-        f.partial_search(self.item_list, self.return_list)
-
-    def complete_list(self):
-        f.return_complete_list(self.item_list)
-
-    def export(self):
-        f.export_list(self.item_list)
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate a list of grocery that is on sale')
@@ -59,11 +49,12 @@ if __name__ == "__main__":
     app.load()
     app.cookie_button_click()
     app.auto_scroll_bottom()
-    app.get_list()
+    complete_list = app.get_list()
+    return_list = []
 
     if args.s:
-        app.search()
+        f.partial_search(complete_list, return_list)
     elif args.a:
-        app.complete_list()
+        print(complete_list)
     elif args.e:
-        app.export()
+        f.export_list(complete_list)
